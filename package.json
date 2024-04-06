@@ -1,0 +1,11 @@
+{
+  "name": "quote-of-the-day",
+  "version": "1.0.0",
+  "description": "an simple application that generate a quote of the day and send it to the registered users",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "HUMBLEFOOL",
+  "license": "ISC"
+}
