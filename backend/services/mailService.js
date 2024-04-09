@@ -1,14 +1,11 @@
 const transporter = require('../config/mailConfig');
 const generateEmailContent = require('./emailTemplate');
 
-const sendMail = async () => {
-    const quote = "dummy quote"
-    const author = "humblefool"
+const sendMail = async ({ quote, author }) => {
     const emailTemplate = generateEmailContent(quote, author);
 
     const info = await transporter.sendMail({
-        to: 'kanikamaheshwari816@gmail.com,ashi.saakshi@gmail.com',
-        subject: 'Quote of the Day',
+        subject: `Quote of the Day${Math.random() * 10}`,
         html: emailTemplate
     });
 
@@ -16,5 +13,3 @@ const sendMail = async () => {
 }
 
 module.exports = sendMail;
-
-// kanikamaheshwari816@gmail.com

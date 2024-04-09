@@ -12,6 +12,22 @@ const populatedb = async (req, res) => {
     }
 }
 
+const generateRandomQuote = async () => {
+    try {
+        const quoteCount = await Quote.countDocuments();
+        const randomIndex = Math.floor(Math.random() * quoteCount);
+
+        // find quote
+        const quote = await Quote.findOne().skip(randomIndex);
+        // console.log(randomIndex, quoteCount)
+        return quote;
+    } catch (err) {
+        console.log("Err: ", err)
+        return err;
+    }
+}
+
 module.exports = {
     populatedb,
+    generateRandomQuote
 }
