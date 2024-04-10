@@ -1,6 +1,7 @@
 const cron = require('node-cron');
 const { generateRandomQuote } = require('../controllers/quoteController');
 const sendMail = require('../services/mailService')
+const sendMessage = require('../services/messageService')
 
 
 const task = cron.schedule('*/5 * * * * *', async () => {
@@ -8,6 +9,7 @@ const task = cron.schedule('*/5 * * * * *', async () => {
     try {
         const quote = await generateRandomQuote();
         sendMail({ quote: quote.content, author: quote.author });
+        // sendMessage({ message: 'Your phone has been hacked' })
         // console.log(quote);
     } catch (err) {
         console.log("Err: ", err);
