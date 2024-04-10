@@ -18,9 +18,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className}  h-screen px-[20px] py-[10px]`}>
+      <body className={`${inter.className}  h-screen pb-[10px]`}>
         <Headers />
-
         {children}
         <Footer />
       </body>
