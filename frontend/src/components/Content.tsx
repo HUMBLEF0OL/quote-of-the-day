@@ -26,8 +26,6 @@ const Content = () => {
         const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (regex.test(email)) {
             try {
-                console.log("url: ", process.env.NEXT_PUBLIC_API_URL)
-                debugger
                 const resp = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/register`, {
                     method: 'POST',
                     headers: {
@@ -36,13 +34,19 @@ const Content = () => {
                     body: JSON.stringify({ email: email })
                 });
                 const result = await resp.json();
-                console.log(result);
-                setResult({
-                    mode: 'SUCCESS',
-                    message: 'Sign up Successful'
-                })
+                if (result?.errorResponse?.code === 11000) {
+                    setResult({
+                        mode: 'ERROR',
+                        message: "Duplicate Email"
+                    })
+                } else {
+                    setResult({
+                        mode: 'SUCCESS',
+                        message: 'Sign up Successful'
+                    })
+                }
 
-            } catch (err) {
+            } catch (err: any) {
                 setResult({
                     mode: 'ERROR',
                     message: 'Failed to SignUp'
