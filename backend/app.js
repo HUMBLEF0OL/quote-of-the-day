@@ -15,7 +15,7 @@ try {
     mongoose.connect(process.env.DB_URL).then((err) => {
         app.listen(process.env.PORT, async () => {
             console.log("listening on: ", process.env.PORT);
-            // cronTask.start();
+            cronTask.start();
 
         });
     });
