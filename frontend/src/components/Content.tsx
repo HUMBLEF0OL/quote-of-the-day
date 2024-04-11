@@ -1,16 +1,35 @@
 "use client"
 import React, { useState } from 'react'
 import Snackbar from './Snackbar';
+import 'dotenv/config'
 
 const Content = () => {
     const [email, setEmail] = useState('');
-    const [error, setError] = useState('');
+    const [result, setResult] = useState({
+        mode: 'ERROR',
+        message: ''
+    });
 
-    const handleSubmit = async () => {
+    /**
+     * Handles the form submission for user registration.
+     *
+     * @function
+     * @returns {Promise<void>} A Promise that resolves when the form submission is complete.
+     *
+     * @description
+     * This function validates the email address using a regular expression.
+     * If the email is valid, it sends a POST request to the server with the email address.
+     * If the registration is successful, it sets the result to indicate success.
+     * If the registration fails or the email is invalid, it sets the result to indicate an error.
+     */
+    const handleSubmit = async (): Promise<void> => {
         const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (regex.test(email)) {
             try {
-                const resp = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/registration`, {
+                console.log("url: ", process.env.NEXT_PUBLIC_API_URL)
+                debugger
+                const resp = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/register`, {
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
@@ -18,12 +37,22 @@ const Content = () => {
                 });
                 const result = await resp.json();
                 console.log(result);
+                setResult({
+                    mode: 'SUCCESS',
+                    message: 'Sign up Successful'
+                })
 
             } catch (err) {
-                console.log(err);
+                setResult({
+                    mode: 'ERROR',
+                    message: 'Failed to SignUp'
+                })
             }
         } else {
-            setError('Please enter a valid email');
+            setResult({
+                mode: 'ERROR',
+                message: 'Please enter a valid email'
+            })
         }
     }
 
@@ -41,7 +70,7 @@ const Content = () => {
                         type="email"
                         required
                         placeholder="Please enter your email..."
-                        className="sm:h-[55px] h-[40px] sm:w-[350px] w-full rounded-md text-gray-500 placeholder:italic placeholder:text-cyan-800 px-2 focus:outline-none focus:border-cyan-300 focus:ring-2"
+                        className="sm:h-[55px] h-[40px] sm:w-[350px] text-xl w-full rounded-md text-gray-500 placeholder:italic placeholder:text-cyan-800 px-2 focus:outline-none focus:border-cyan-300 focus:ring-2"
                         onKeyDown={(event) => {
                             if (event.key === 'Enter') {
                                 handleSubmit();
@@ -57,10 +86,12 @@ const Content = () => {
                         </svg>
                     </button>
                 </label>
-                <div className='absolute right-0 top-[72px]'>
-                    <Snackbar message='Dummy message' mode='ERROR' />
+                {result.message !== '' &&
+                    <div className='absolute top-[72px] right-0'>
+                        <Snackbar message={result.message} mode={result.mode as 'SUCCESS' | 'ERROR'} resetStatus={setResult} />
+                    </div>
 
-                </div>
+                }
 
             </div>
         </>
