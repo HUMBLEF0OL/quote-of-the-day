@@ -2,6 +2,7 @@ const User = require('../models/User')
 
 const registerUser = async (req, res) => {
     const { email } = req.body;
+    console.log("received email is ", email);
     try {
         const result = await User.create({ email: email });
         res.json(result);

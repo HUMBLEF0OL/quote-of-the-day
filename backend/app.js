@@ -24,7 +24,11 @@ try {
 
 }
 
-app.use(cors())
+// app.use(cors())
+app.use(cors({
+    origin: ['https://quote-of-the-day-nine.vercel.app', 'http://localhost:3000'],
+    optionsSuccessStatus: 200
+}));
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
