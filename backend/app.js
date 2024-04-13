@@ -13,7 +13,7 @@ const app = express();
 try {
 
     mongoose.connect(process.env.DB_URL).then((err) => {
-        app.listen(process.env.PORT, async () => {
+        app.listen(process.env.PORT || 5000, async () => {
             console.log("listening on: ", process.env.PORT);
             cronTask.start();
 
